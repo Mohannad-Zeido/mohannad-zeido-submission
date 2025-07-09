@@ -1,0 +1,7 @@
+﻿services:
+  investorcommitments.api:
+    image: investorcommitments.api
+    build:
+      context: .
+      dockerfile: InvestorCommitments.API/Dockerfile
+

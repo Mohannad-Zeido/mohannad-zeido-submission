@@ -1,0 +1,60 @@
+## Ignore Visual Studio build files
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Ignore Rider-specific files
+.idea/
+*.sln.iml
+
+## Ignore dotnet tools and build artifacts
+*.dll
+*.exe
+*.app
+*.pdb
+*.cache
+*.log
+*.vspscc
+*.vssscc
+
+## Ignore Rider logs and system files
+.idea/.idea.*
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/usage.statistics.xml
+.idea/.name
+.idea/gradle.xml
+.idea/libraries/
+.idea/modules.xml
+
+## Ignore temporary files
+*.tmp
+*.temp
+*.bak
+*.old
+*.swp
+*.swn
+
+## Ignore test results
+TestResults/
+*.coverage
+*.coveragexml
+
+## Ignore published output
+publish/
+*.dbmdl
+
+## Ignore user secrets and config
+secrets.json
+*.userprefs
+*.userconfig
+
+## ASP.NET Core / Entity Framework specific
+appsettings.Development.json
+appsettings.Local.json
+*.sqlite
+*.mdf
+*.ldf

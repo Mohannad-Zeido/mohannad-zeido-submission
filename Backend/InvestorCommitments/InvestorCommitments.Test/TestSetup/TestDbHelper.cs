@@ -16,20 +16,21 @@ public class TestDbHelper
         _connection.Execute("""
                             CREATE TABLE investors (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                investor_name TEXT NOT NULL,
-                                investory_type TEXT,
-                                investor_country TEXT,
-                                investor_date_added TEXT,
-                                investor_last_updated TEXT
+                            name TEXT,
+                            investoryType TEXT,
+                            country TEXT,
+                            dateAdded TEXT,
+                            lastUpdated TEXT,
+                            UNIQUE(name)
                             );
 
                             CREATE TABLE commitments (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                investor_id INTEGER,
-                                commitment_asset_class TEXT,
-                                commitment_amount REAL,
-                                commitment_currency TEXT,
-                                FOREIGN KEY (investor_id) REFERENCES investors(id)
+                            investorId INTEGER,
+                            assetClass TEXT,
+                            amount INTEGER,
+                            currency TEXT,
+                            FOREIGN KEY (investorId) REFERENCES investors(id)
                             );
                             """);
     }
@@ -38,8 +39,8 @@ public class TestDbHelper
     {
         return await _connection.ExecuteScalarAsync<int>("""
                                      INSERT INTO investors (
-                                            investor_name, investory_type, investor_country, 
-                                            investor_date_added, investor_last_updated
+                                            name, investoryType, country, 
+                                            dateAdded, lastUpdated
                                             )
                                      VALUES (@Name, @Type, @Country, @DateAdded, @LastUpdated)
                                      RETURNING id
@@ -57,7 +58,7 @@ public class TestDbHelper
     {
         await _connection.ExecuteAsync("""
                             INSERT INTO commitments (
-                                investor_id, commitment_asset_class, commitment_amount, commitment_currency
+                                investorId, assetClass, amount, currency
                             ) VALUES (
                                 @InvestorId, @AssetClass, @Amount, @Currency
                             )

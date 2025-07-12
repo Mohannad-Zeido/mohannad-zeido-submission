@@ -22,6 +22,7 @@ public class InvestorControllerTests : IClassFixture<InvestorCommitmentsWebAppli
         _ = await _dbHelper.AddInvestor("Alpha Fund", "PE", "UK");
         var investorToId = await _dbHelper.AddInvestor("Beta Capital", "VC", "US");
         await _dbHelper.AddCommitment(investorToId, "Stock", 100000, "GBP");
+        await _dbHelper.AddCommitment(investorToId, "Infrastructure", 999, "GBP");
         
         // Act
         var response = await _client.GetAsync("/api/investors");
@@ -29,7 +30,8 @@ public class InvestorControllerTests : IClassFixture<InvestorCommitmentsWebAppli
         // Assert
         response.IsSuccessStatusCode.ShouldBeTrue();
         
-        var body = await response.Content.ReadFromJsonAsync<object>();
+        var body = await response.Content.ReadFromJsonAsync<IEnumerable<object>>();
+        
         
         body.ShouldBeEquivalentTo(new
         {
@@ -45,7 +47,7 @@ public class InvestorControllerTests : IClassFixture<InvestorCommitmentsWebAppli
                   Name = "Beta Capital",
                   InvestoryType = "VC",
                   InvestorCountry = "US",
-                  TotalCommitments = 100000
+                  TotalCommitments = 100999
                 },
             }
         });

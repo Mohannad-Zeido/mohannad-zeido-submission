@@ -16,9 +16,9 @@ public class InvestorCommitmentsController : ControllerBase
 
     [HttpGet]
     [Route("investors")]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> GetInvestors()
     {
-        var response = await _investorRepository.GetAllInvestorNamesAsync();
+        var response = await _investorRepository.GetAllInvestorsAsync();
         
         return Ok(response);
     }

@@ -1,6 +1,8 @@
-﻿namespace InvestorCommitments.Infrastructure.Repository;
+﻿using InvestorCommitments.Infrastructure.Repository.Model;
+
+namespace InvestorCommitments.Infrastructure.Repository;
 
 public interface IInvestorRepository
 {
-    Task<IEnumerable<string>> GetAllInvestorNamesAsync();
+    Task<IEnumerable<Investor>> GetAllInvestorsAsync();
 }

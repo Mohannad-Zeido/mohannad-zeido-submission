@@ -1,5 +1,6 @@
 ﻿using InvestorCommitments.Infrastructure.Database;
 using Dapper;
+using InvestorCommitments.Infrastructure.Repository.Model;
 
 namespace InvestorCommitments.Infrastructure.Repository;
 
@@ -13,11 +14,27 @@ public class InvestorRepository : IInvestorRepository
     }
     
     
-    public async Task<IEnumerable<string>> GetAllInvestorNamesAsync()
+    public async Task<IEnumerable<Investor>> GetAllInvestorsAsync()
     {
+        const string sql =
+            """
+            SELECT 
+                i.*, 
+                COALESCE(totalCommitmentSum, 0) AS totalCommitment
+            FROM 
+                investors i
+            LEFT JOIN (
+                SELECT 
+                    investorId, 
+                    SUM(amount) AS totalCommitmentSum
+                FROM 
+                    commitments
+                GROUP BY 
+                    investorId
+            ) calculatedCommitments ON i.id = calculatedCommitments.investorId;
+            """;
+        
         using var connection = _connectionFactory.CreateConnection();
-        var sql = "SELECT DISTINCT investor_name FROM investors";
-        var results = await connection.QueryAsync<string>(sql);
-        return results;
+        return await connection.QueryAsync<Investor>(sql);
     }
 }

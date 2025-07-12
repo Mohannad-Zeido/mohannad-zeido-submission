@@ -29,3 +29,5 @@ app.MapControllers();
 
 
 app.Run();
+
+public partial class Program { } // 👈 Add this line

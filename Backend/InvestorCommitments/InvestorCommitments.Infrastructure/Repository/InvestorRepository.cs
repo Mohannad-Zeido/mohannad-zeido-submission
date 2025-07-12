@@ -1,6 +1,6 @@
 ﻿using InvestorCommitments.Infrastructure.Database;
 using Dapper;
-using InvestorCommitments.Infrastructure.Repository.Model;
+using InvestorCommitments.Infrastructure.Repository.Models;
 
 namespace InvestorCommitments.Infrastructure.Repository;
 
@@ -14,19 +14,19 @@ public class InvestorRepository : IInvestorRepository
     }
     
     
-    public async Task<IEnumerable<Investor>> GetAllInvestorsAsync()
+    public async Task<IEnumerable<InvestorDto>> GetAllInvestorsAsync()
     {
         const string sql =
             """
             SELECT 
                 i.*, 
-                COALESCE(totalCommitmentSum, 0) AS totalCommitment
+                COALESCE(totalCommitmentsSum, 0) AS totalCommitments
             FROM 
                 investors i
             LEFT JOIN (
                 SELECT 
                     investorId, 
-                    SUM(amount) AS totalCommitmentSum
+                    SUM(amount) AS totalCommitmentsSum
                 FROM 
                     commitments
                 GROUP BY 
@@ -35,6 +35,6 @@ public class InvestorRepository : IInvestorRepository
             """;
         
         using var connection = _connectionFactory.CreateConnection();
-        return await connection.QueryAsync<Investor>(sql);
+        return await connection.QueryAsync<InvestorDto>(sql);
     }
 }

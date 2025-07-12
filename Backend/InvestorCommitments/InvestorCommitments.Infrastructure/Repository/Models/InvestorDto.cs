@@ -1,10 +1,10 @@
-﻿namespace InvestorCommitments.Infrastructure.Repository.Model;
+﻿namespace InvestorCommitments.Infrastructure.Repository.Models;
 
-public record Investor
+public record InvestorDto
 {
     public required int Id { get; set; }
     public required string Name { get; set; }
     public required string InvestoryType { get; set; }
     public required string Country { get; set; }
-    public required int TotalCommitment { get; set; }
+    public required int TotalCommitments { get; set; }
 }

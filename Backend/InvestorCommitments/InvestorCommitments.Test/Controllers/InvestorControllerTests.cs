@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using InvestorCommitments.API.Controllers.Models;
 using InvestorCommitments.Test.TestSetup;
 using Shouldly;
 
@@ -16,7 +17,7 @@ public class InvestorControllerTests : IClassFixture<InvestorCommitmentsWebAppli
     }
     
     [Fact]
-    public async Task GetInvestors_ReturnsInvestorsAndTotalCommitments()
+    public async Task GetInvestors_ReturnsInvestorsWithTotalCommitments()
     {
         // Arrange
         _ = await _dbHelper.AddInvestor("Alpha Fund", "PE", "UK");
@@ -30,24 +31,28 @@ public class InvestorControllerTests : IClassFixture<InvestorCommitmentsWebAppli
         // Assert
         response.IsSuccessStatusCode.ShouldBeTrue();
         
-        var body = await response.Content.ReadFromJsonAsync<IEnumerable<object>>();
+        var body = await response.Content.ReadFromJsonAsync<GetInvestorsResponse>();
         
         
-        body.ShouldBeEquivalentTo(new
+        body.ShouldBeEquivalentTo(new GetInvestorsResponse
         {
-            Investors = new List<object>
+            Investors = new List<Investor>
             {
-                new {
+                new Investor
+                {
                     Name = "Alpha Fund",
                     InvestoryType = "PE",
-                    InvestorCountry = "UK",
-                    TotalCommitments = 0
+                    Country = "UK",
+                    TotalCommitments = 0,
+                    Currency = "GBP"
                 },
-                new {
+                new Investor
+                {
                   Name = "Beta Capital",
                   InvestoryType = "VC",
-                  InvestorCountry = "US",
-                  TotalCommitments = 100999
+                  Country = "US",
+                  TotalCommitments = 100999,
+                  Currency = "GBP"
                 },
             }
         });

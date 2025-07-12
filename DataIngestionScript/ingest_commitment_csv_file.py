@@ -7,18 +7,18 @@ df = pd.read_csv("data.csv")
 # I want to store the DB file in the Backend Server so using that path here.
 # Realistically that server would either expose endpoints to accept the data and store it in an actual DB like Postgres.
 # But for the sake of this assessment I created a simple ingestion script
-conn = sqlite3.connect("../Backend/InvestorCommitments.API/Database/investor_commitments.db")
+conn = sqlite3.connect("../Backend/InvestorCommitments/Database/investor_commitments.db")
 cursor = conn.cursor()
 
 cursor.execute('''
                CREATE TABLE IF NOT EXISTS investors (
                                                         id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                                        investor_name TEXT,
-                                                        investory_type TEXT,
-                                                        investor_country TEXT,
-                                                        investor_date_added TEXT,
-                                                        investor_last_updated TEXT,
-                                                        UNIQUE(investor_name)
+                                                        name TEXT,
+                                                        investoryType TEXT,
+                                                        country TEXT,
+                                                        dateAdded TEXT,
+                                                        lastUpdated TEXT,
+                                                        UNIQUE(name)
                    )
                ''')
 
@@ -26,18 +26,18 @@ cursor.execute('''
 cursor.execute('''
                CREATE TABLE IF NOT EXISTS commitments (
                                                           id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                                          investor_id INTEGER,
-                                                          commitment_asset_class TEXT,
-                                                          commitment_amount REAL,
-                                                          commitment_currency TEXT,
-                                                          FOREIGN KEY (investor_id) REFERENCES investors(id)
+                                                          investorId INTEGER,
+                                                          assetClass TEXT,
+                                                          amount REAL,
+                                                          currency TEXT,
+                                                          FOREIGN KEY (investorId) REFERENCES investors(id)
                    )
                ''')
 
 for _, row in df.iterrows():
     cursor.execute('''
                    INSERT OR IGNORE INTO investors (
-        investor_name, investory_type, investor_country, investor_date_added, investor_last_updated
+        name, investoryType, country, dateAdded, lastUpdated
     ) VALUES (?, ?, ?, ?, ?)
                    ''', (
                        row['Investor Name'], row['Investory Type'], row['Investor Country'],
@@ -46,13 +46,13 @@ for _, row in df.iterrows():
 
     cursor.execute('''
                    SELECT id FROM investors WHERE
-                       investor_name = ?
+                       name = ?
                    ''', (row['Investor Name'],))
     investor_id = cursor.fetchone()[0]
 
     cursor.execute('''
                    INSERT OR IGNORE INTO commitments (
-                       investor_id, commitment_asset_class, commitment_amount, commitment_currency
+                       investorId, assetClass, amount, currency
                    ) VALUES (?, ?, ?, ?)
                    ''', (
                        investor_id,

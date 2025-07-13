@@ -6,5 +6,5 @@ public record InvestorDto
     public required string Name { get; set; }
     public required string InvestoryType { get; set; }
     public required string Country { get; set; }
-    public required int TotalCommitments { get; set; }
+    public required double  TotalCommitments { get; set; }
 }

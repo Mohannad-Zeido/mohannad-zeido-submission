@@ -9,6 +9,7 @@ public static class InvestorDtoExtensions
     {
         return new Investor
         {
+            Id = investorDto.Id,
             Name = investorDto.Name,
             InvestoryType = investorDto.InvestoryType,
             Country = investorDto.Country,

@@ -1,7 +1,6 @@
 ﻿using InvestorCommitments.API.Controllers.Models;
 using InvestorCommitments.API.Extenstions;
 using InvestorCommitments.Infrastructure.Repository;
-using InvestorCommitments.Infrastructure.Repository.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InvestorCommitments.API.Controllers;
@@ -21,11 +20,11 @@ public class InvestorCommitmentsController : ControllerBase
     [Route("investors")]
     public async Task<ActionResult<GetInvestorsResponse>> GetInvestors()
     {
-        var investorDtos = await _investorRepository.GetAllInvestorsAsync();
+        var investorsList = await _investorRepository.GetAllInvestorsAsync();
         
         return Ok(new GetInvestorsResponse
         {
-            Investors = investorDtos.Select(i => i.ToInvestor())
+            Investors = investorsList.Select(i => i.ToInvestor())
         });
     }
     

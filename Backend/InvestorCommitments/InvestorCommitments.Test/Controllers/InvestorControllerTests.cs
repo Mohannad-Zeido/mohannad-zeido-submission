@@ -20,10 +20,10 @@ public class InvestorControllerTests : IClassFixture<InvestorCommitmentsWebAppli
     public async Task GetInvestors_ReturnsInvestorsWithTotalCommitments()
     {
         // Arrange
-        _ = await _dbHelper.AddInvestor("Alpha Fund", "PE", "UK");
-        var investorToId = await _dbHelper.AddInvestor("Beta Capital", "VC", "US");
-        await _dbHelper.AddCommitment(investorToId, "Stock", 100000, "GBP");
-        await _dbHelper.AddCommitment(investorToId, "Infrastructure", 999, "GBP");
+        var investor1Id = await _dbHelper.AddInvestor("Alpha Fund", "PE", "UK");
+        var investor2Id = await _dbHelper.AddInvestor("Beta Capital", "VC", "US");
+        await _dbHelper.AddCommitment(investor2Id, "Stock", 100000, "GBP");
+        await _dbHelper.AddCommitment(investor2Id, "Infrastructure", 999, "GBP");
         
         // Act
         var response = await _client.GetAsync("/api/investors");
@@ -40,6 +40,7 @@ public class InvestorControllerTests : IClassFixture<InvestorCommitmentsWebAppli
             {
                 new Investor
                 {
+                    Id = investor1Id,
                     Name = "Alpha Fund",
                     InvestoryType = "PE",
                     Country = "UK",
@@ -48,11 +49,12 @@ public class InvestorControllerTests : IClassFixture<InvestorCommitmentsWebAppli
                 },
                 new Investor
                 {
-                  Name = "Beta Capital",
-                  InvestoryType = "VC",
-                  Country = "US",
-                  TotalCommitments = 100999,
-                  Currency = "GBP"
+                    Id = investor2Id,
+                    Name = "Beta Capital",
+                    InvestoryType = "VC",
+                    Country = "US",
+                    TotalCommitments = 100999,
+                    Currency = "GBP"
                 },
             }
         });

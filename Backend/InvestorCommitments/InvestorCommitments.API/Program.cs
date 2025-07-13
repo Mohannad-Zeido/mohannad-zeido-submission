@@ -9,6 +9,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(builder.Configuration);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("OpenPolicy", cP => 
+        cP.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
 var app = builder.Build();
 
 // Configure HTTP request pipeline
@@ -25,8 +33,10 @@ else
 
 app.UseRouting();
 app.UseAuthorization();
-app.MapControllers();
 
+app.UseCors("OpenPolicy");
+
+app.MapControllers();
 
 app.Run();
 

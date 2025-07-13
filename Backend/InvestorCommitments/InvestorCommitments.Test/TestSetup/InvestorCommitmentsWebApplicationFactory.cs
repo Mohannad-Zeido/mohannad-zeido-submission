@@ -1,40 +1,29 @@
-﻿using InvestorCommitments.Infrastructure.Database;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace InvestorCommitments.Test.TestSetup;
 
-public class InvestorCommitmentsWebApplicationFactory : WebApplicationFactory<Program>
+public class InvestorCommitmentsWebApplicationFactory : WebApplicationFactory<Program>, IDisposable
 {
-    private SqliteConnection? _connection;
-    private TestDbHelper? DbHelper { get; set; }
-
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+        builder.ConfigureAppConfiguration(configurationBuilder =>
+        {
+            var configLocation = Path.Combine(Directory.GetCurrentDirectory(), "testsettings.json");
+            configurationBuilder.AddJsonFile(configLocation);
+        });
+        
         builder.ConfigureServices(services =>
         {
-            _connection = new SqliteConnection("DataSource=:memory:");
-            _connection.Open();
-
-            services.AddSingleton<IDbConnectionFactory>(new TestSqliteConnectionFactory(_connection));
-
-            DbHelper = new TestDbHelper(_connection);
-            DbHelper.InitDb();
+            services.AddSingleton<TestDbHelper>();
         });
     }
-    
-    public TestDbHelper GetDbHelper() => 
-        DbHelper ?? throw new InvalidOperationException("DbHelper accessed before initialization.");
 
-    protected override void Dispose(bool disposing)
+    public new void Dispose()
     {
-        if (disposing)
-        {
-            _connection?.Close();
-            _connection?.Dispose();
-        }
-        base.Dispose(disposing);
+        Server.Dispose();
+        base.Dispose();
     }
 }

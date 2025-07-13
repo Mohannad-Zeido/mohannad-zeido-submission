@@ -2,9 +2,9 @@
 
 public record InvestorDto
 {
-    public required int Id { get; set; }
-    public required string Name { get; set; }
-    public required string InvestoryType { get; set; }
-    public required string Country { get; set; }
-    public required double  TotalCommitments { get; set; }
+    public required int Id { get; init; }
+    public required string Name { get; init; }
+    public required string InvestoryType { get; init; }
+    public required string Country { get; init; }
+    public double?  TotalCommitments { get; init; }
 }

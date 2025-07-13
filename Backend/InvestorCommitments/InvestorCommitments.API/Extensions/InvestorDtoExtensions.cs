@@ -1,7 +1,7 @@
 ﻿using InvestorCommitments.API.Controllers.Models;
 using InvestorCommitments.Infrastructure.Repository.Models;
 
-namespace InvestorCommitments.API.Extenstions;
+namespace InvestorCommitments.API.Extensions;
 
 public static class InvestorDtoExtensions
 {
@@ -14,7 +14,7 @@ public static class InvestorDtoExtensions
             InvestoryType = investorDto.InvestoryType,
             Country = investorDto.Country,
             Currency = "GBP",
-            TotalCommitments = investorDto.TotalCommitments,
+            TotalCommitments = investorDto.TotalCommitments ?? 0,
         };
     }
 }

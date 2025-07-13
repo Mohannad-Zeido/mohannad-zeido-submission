@@ -37,4 +37,31 @@ public class InvestorRepository : IInvestorRepository
         using var connection = _connectionFactory.CreateConnection();
         return await connection.QueryAsync<InvestorDto>(sql);
     }
+    
+    public async Task<InvestorDto?> GetInvestor(int investorId)
+    {
+        const string sql =
+            @"
+            SELECT *
+            FROM investors
+            WHERE id = @InvestorId;
+            ";
+        
+        using var connection = _connectionFactory.CreateConnection();
+        var investor = await connection.QueryFirstOrDefaultAsync<InvestorDto>(sql, new { InvestorId = investorId });
+        return investor;
+    }
+
+    public async Task<IEnumerable<InvestorCommitmentDto>> GetInvestorCommitmentsAsync(int investorId)
+    {
+        const string sql = @"
+        SELECT *
+        FROM commitments
+        WHERE investorId = @InvestorId;
+    ";
+
+        using var connection = _connectionFactory.CreateConnection();
+        var commitments = await connection.QueryAsync<InvestorCommitmentDto>(sql, new { InvestorId = investorId });
+        return commitments;
+    }
 }

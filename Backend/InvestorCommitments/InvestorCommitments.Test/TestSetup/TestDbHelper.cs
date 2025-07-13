@@ -57,16 +57,17 @@ public class TestDbHelper
         });
     }
     
-    public void AddCommitment(int investorId, string assetClass, double amount, string currency)
+    public int AddCommitment(int investorId, string assetClass, double amount, string currency)
     {
         using var connection = _dbConnectionFactoryFactory.CreateConnection();
-        connection.Execute("""
-                           INSERT INTO commitments (
-                               investorId, assetClass, amount, currency
-                           ) VALUES (
-                               @InvestorId, @AssetClass, @Amount, @Currency
-                           )
-                           """, new
+        return connection.ExecuteScalar<int>("""
+                                      INSERT INTO commitments (
+                                          investorId, assetClass, amount, currency
+                                      ) VALUES (
+                                          @InvestorId, @AssetClass, @Amount, @Currency
+                                      )
+                                      RETURNING id
+                                      """, new
         {
             InvestorId = investorId,
             AssetClass = assetClass,

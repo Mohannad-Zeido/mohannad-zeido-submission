@@ -9,6 +9,7 @@ public static class InvestorCommitmentDtoExtensions
     {
         return new InvestorCommitment
         {
+            Id = investorCommitmentDto.Id,
             Amount = investorCommitmentDto.Amount,
             AssetClass = investorCommitmentDto.AssetClass,
             Currency = investorCommitmentDto.Currency,

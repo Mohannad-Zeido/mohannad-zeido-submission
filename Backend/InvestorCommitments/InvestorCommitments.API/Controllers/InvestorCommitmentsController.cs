@@ -30,7 +30,7 @@ public class InvestorCommitmentsController : ControllerBase
     
     [HttpGet]
     [Route("investor/{investorId:int}")]
-    public async Task<ActionResult<GetInvestorsResponse>> GetInvestorCommitments(int investorId)
+    public async Task<ActionResult<GetInvestorCommitmentsResponse>> GetInvestorCommitments(int investorId)
     {
         var investor = await _investorRepository.GetInvestor(investorId);
 

@@ -84,10 +84,10 @@ public class InvestorControllerTests : IClassFixture<InvestorCommitmentsWebAppli
     {
         // Arrange
         var investorId = _dbHelper.AddInvestor("Beta Capital", "VC", "US");
-        _dbHelper.AddCommitment(investorId, "Real Estate", 100000, "GBP");
-        _dbHelper.AddCommitment(investorId, "Hedge Fund", 1999, "GBP");
-        _dbHelper.AddCommitment(investorId, "Infrastructure", 1234567, "GBP");
-        _dbHelper.AddCommitment(investorId, "Natural Sources", 556654, "GBP");
+        var commitment1 = _dbHelper.AddCommitment(investorId, "Real Estate", 100000, "GBP");
+        var commitment2 =_dbHelper.AddCommitment(investorId, "Hedge Fund", 1999, "GBP");
+        var commitment3 =_dbHelper.AddCommitment(investorId, "Infrastructure", 1234567, "GBP");
+        var commitment4 =_dbHelper.AddCommitment(investorId, "Natural Sources", 556654, "GBP");
         
         // Act
         var response = await _client.GetAsync($"/api/investor/{investorId}");
@@ -105,24 +105,28 @@ public class InvestorControllerTests : IClassFixture<InvestorCommitmentsWebAppli
             {
                 new InvestorCommitment
                 {
+                    Id = commitment1,
                     AssetClass = "Real Estate",
                     Amount = 100000,
                     Currency = "GBP"
                 },
                 new InvestorCommitment
                 {
+                    Id = commitment2,
                     AssetClass = "Hedge Fund",
                     Amount = 1999,
                     Currency =  "GBP"
                 },
                 new InvestorCommitment
                 {
+                    Id = commitment3,
                     AssetClass = "Infrastructure",
                     Amount = 1234567,
                     Currency =  "GBP"
                 },
                 new InvestorCommitment
                 {
+                    Id = commitment4,
                     AssetClass = "Natural Sources",
                     Amount = 556654,
                     Currency =  "GBP"

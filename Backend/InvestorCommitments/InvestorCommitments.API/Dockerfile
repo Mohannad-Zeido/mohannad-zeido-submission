@@ -6,9 +6,12 @@ EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
+COPY ["Database/investor_commitments.db", "./Databases123/investor_commitments.db"]
 WORKDIR /src
-COPY ["InvestorCommitments.API/InvestorCommitments.API.csproj", "InvestorCommitments.API/"]
-RUN dotnet restore "InvestorCommitments.API/InvestorCommitments.API.csproj"
+COPY Database/investor_commitments.db ./Databases/investor_commitments.db
+COPY ["Database/investor_commitments.db", "./Databases123/investor_commitments.db"]
+COPY ["InvestorCommitmentsAPI/InvestorCommitments.API.csproj", "InvestorCommitments.API/"]
+RUN dotnet restore "InvestorCommitmentsAPI/InvestorCommitments.API.csproj"
 COPY . .
 WORKDIR "/src/InvestorCommitments.API"
 RUN dotnet build "./InvestorCommitments.API.csproj" -c $BUILD_CONFIGURATION -o /app/build

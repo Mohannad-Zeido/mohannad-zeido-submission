@@ -22,7 +22,6 @@ cursor.execute('''
                    )
                ''')
 
-# Create commitments table
 cursor.execute('''
                CREATE TABLE IF NOT EXISTS commitments (
                                                           id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -1,0 +1,16 @@
+name: investor-commitments
+services:
+  backend:
+    image: investor-commitments-backend
+    build:
+      context: .
+      dockerfile: Backend/InvestorCommitments/InvestorCommitments.API/Dockerfile
+    ports:
+      - "8080:8080"
+  frontend:
+    image: investor-commitments-frontend
+    build:
+      context: .
+      dockerfile: Frontend/investor_commitments_frontend/Dockerfile
+    ports:
+      - "80:80"

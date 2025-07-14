@@ -1,8 +1,0 @@
-﻿services:
-  investorcommitments:
-    image: investorcommitments
-    build:
-      context: .
-      dockerfile: InvestorCommitments.API/Dockerfile
-    ports:
-      - "8080:8080"

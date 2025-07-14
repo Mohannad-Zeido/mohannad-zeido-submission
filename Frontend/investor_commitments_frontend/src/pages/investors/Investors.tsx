@@ -48,7 +48,7 @@ export default function Investors() {
     }, []);
 
     useEffect(() => {
-        axios.get<GetInvestorsResponse>('http://localhost:5250/api/investors')
+        axios.get<GetInvestorsResponse>('http://localhost:8080/api/investors')
             .then(response => {
                 setInvestors(response.data.investors);
             })

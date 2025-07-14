@@ -32,7 +32,7 @@ export default function CommitmentsPage() {
 
 
     useEffect(() => {
-        axios.get<GetInvestorCommitmentsResponse>(`http://localhost:5250/api/investor/${id}`)
+        axios.get<GetInvestorCommitmentsResponse>(`http://localhost:8080/api/investor/${id}`)
             .then(response => {
                 setInvestorName(response.data.investor_name);
                 setCommitments(response.data.investor_commitments);
